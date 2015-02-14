@@ -1,5 +1,5 @@
 function bracketModel() {
-  var builder, model = {}, prevRoundIdx, currRoundIdx, currGameIdx;
+  var builder, model = {}, participants = [], prevRoundIdx, currRoundIdx, currGameIdx;
 
   function id(roundIdx, gameIdx) {
     return roundIdx + '_' + gameIdx;
@@ -17,22 +17,26 @@ function bracketModel() {
       return builder;
     },
     participant: function (name) {
-      model[currRoundIdx][currGameIdx].participants.push({name: name});
+      var participant = {name: name};
+      participants.push(participant);
+      model[currRoundIdx][currGameIdx].participants.push(participant);
       return builder;
     },
-    winnerOf: function (gameIdx) {
+    winnerOf: function (roundKey, gameIdx) {
       model[currRoundIdx][currGameIdx].participants.push({
-        name: 'W_' + id(prevRoundIdx, gameIdx),
-        origin: id(prevRoundIdx, gameIdx)
+        label: 'W_' + id(roundKey, gameIdx),
+        origin: id(roundKey, gameIdx)
       });
       return builder;
     },
     loserOf: function (gameIdx) {
       model[currRoundIdx][currGameIdx].participants.push({
-        name: 'L_' + id(prevRoundIdx, gameIdx),
-        origin: id(prevRoundIdx, gameIdx)
+        label: 'L_' + id(prevRoundIdx, gameIdx)
       });
       return builder;
+    },
+    participants: function () {
+      return participants;
     },
     value: function () {
       return model;
