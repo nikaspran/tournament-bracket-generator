@@ -8,7 +8,8 @@ function bracketModel() {
   return builder = {
     round: function (key) {
       prevRoundIdx = currRoundIdx;
-      model[currRoundIdx = key] = [];
+      currRoundIdx = key;
+      model[currRoundIdx] = model[currRoundIdx] || [];
       return builder;
     },
     game: function () {
@@ -20,6 +21,12 @@ function bracketModel() {
       var participant = {name: name};
       participants.push(participant);
       model[currRoundIdx][currGameIdx].participants.push(participant);
+      return builder;
+    },
+    placeholder: function () {
+      model[currRoundIdx][currGameIdx].participants.push({
+        label: 'plc'
+      });
       return builder;
     },
     winnerOf: function (roundKey, gameIdx) {

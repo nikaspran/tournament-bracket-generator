@@ -120,11 +120,11 @@ var Renderer = function () {
 
         _.forEach(games, function (game, gameIdx) {
           var spaceHeightTotal = spacerSize(options.game.height, games.length, options.height) * (gameIdx + 1),
-            gameY = _(sourceGameCells(game)).map(function (source) {
+            sourceGames = sourceGameCells(game), gameY = (roundIdx > 1 && _(sourceGames).map(function (source) {
                 return source.position().y;
               }).reduce(function (sum, y) {
                 return sum + y;
-              }) / game.participants.length || elementsTotalSize(options.game.height, gameIdx) + spaceHeightTotal;
+              }) / sourceGames.length) || elementsTotalSize(options.game.height, gameIdx) + spaceHeightTotal;
 
           gameNode(roundX, gameY, game);
         });
